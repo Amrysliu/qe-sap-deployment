@@ -8,7 +8,7 @@
     - name: Check host count
       ansible.builtin.fail:
         msg: "There are {{ ansible_play_hosts | length }} hosts in this play but this playbook supports two nodes hosts"
-      when: ansible_play_hosts | length != 2
+      when: ansible_play_hosts | length != 3
 
     - name: Load HANA vars
       include_vars: ./vars/hana_vars.yaml
