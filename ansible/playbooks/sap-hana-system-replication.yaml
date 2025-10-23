@@ -10,6 +10,19 @@
         msg: "There are {{ ansible_play_hosts | length }} hosts in this play but this playbook supports two nodes hosts"
       when: ansible_play_hosts | length != 2
 
+    - name: Add ports permission for sle16
+      ansible.posix.firewalld:
+        port: "40006/tcp"
+        permanent: true
+        state: enabled
+        immediate: yes
+      when: ansible_distribution_major_version == '16'
+
+    - name: Check open ports
+      ansible.builtin.command: firewall-cmd --list-ports
+      register: fw_ports
+      changed_when: false
+
     - name: Load HANA vars
       include_vars: ./vars/hana_vars.yaml
 
